@@ -1,10 +1,11 @@
 # leiningen-init-script
 
-A leiningen plugin that allows you to generate *NIX init scripts.  Alpha quality.
+A leiningen plugin that allows you to generate *NIX init scripts.  Alpha quality, verified working on OSX 10.6 and FC12.
 
 In a nutshell, LSI generates the following artifacts which can be found in your <project-root>/init-script dir:
 
 * Project Uberjar
+<br />
 
 * <your-project-name>d script
 	
