@@ -22,8 +22,8 @@ which are passed to the the init-script task by adding a :lsg-opts entry to the 
 	  :dependencies [[org.clojure/clojure "1.1.0"]
 	                 [org.clojure/clojure-contrib "1.1.0"]]
 	  :dev-dependencies [[leiningen-init-script "0.1.0"]]
-	  :lsg-opts {:pid-dir "/tmp/pids"
-		     :install-dir "/tmp/jars"}
+	  <b>:lsg-opts {:pid-dir "/tmp/pids"
+		            :install-dir "/tmp/jars"}</b>
 	  :main main)
 
 
