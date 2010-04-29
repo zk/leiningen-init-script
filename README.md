@@ -2,6 +2,8 @@
 
 A leiningen plugin that allows you to generate *NIX init scripts.  Alpha quality.
 
+If you have an feature suggestions / bug reports, please open up an [issue](https://github.com/zkim/leiningen-init-script/issues)
+
 ## Lein
 
 Add <code>[leiningen-init-script "0.1.0"]</code> to the :dev-dependencies section in your project.clj.
