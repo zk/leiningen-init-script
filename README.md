@@ -24,6 +24,10 @@ In a nutshell, LSI generates the following artifacts which can be found in your 
 
 If you have an feature suggestions / bug reports, please open up an [issue](https://github.com/zkim/leiningen-init-script/issues)
 
+## Why?
+
+Because it was too damn time-consuming to turn a java program into a *nix daemon service that can be started / stopped asyncronously, chkconfig'd, etc.
+
 ## Lein
 
 Add <code>[leiningen-init-script "0.1.0"]</code> to the :dev-dependencies section in your project.clj.
