@@ -35,7 +35,7 @@
 	init-script-path (str output-dir-path (:name projects) "d")
 	install-script-path (str output-dir-path "install-" (:name projects))
 	clean-script-path (str output-dir-path "clean-" (:name projects))
-	opts (merge (defaults projects) (:lsg-opts projects))]
+	opts (merge (defaults projects) (:lis-opts projects))]
     (create-output-dir output-dir-path)
     (uberjar projects)
     (copy uberjar-file uberjar-lsg-file)
