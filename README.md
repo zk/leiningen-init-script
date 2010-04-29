@@ -1,6 +1,6 @@
 # leiningen-init-script
 
-A leiningen plugin that allows you to generate *NIX init scripts.  Alpha quality, verified working on OSX 10.6 and FC12.
+A leiningen plugin that generates *NIX init scripts.  Alpha quality, verified working on OSX 10.6 and FC12.
 
 In a nutshell, LSI generates the following artifacts which can be found in your <project-root>/init-script dir:
 
@@ -124,8 +124,7 @@ which are passed to the the init-script task by adding a :lis-opts entry to the 
 	
 ## Limitations
 
-
-
+No Windows support at this time, if you'd like to see support for windows services, please open up an issue.
 
 ## License
 
