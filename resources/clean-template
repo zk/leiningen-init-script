@@ -1,0 +1,8 @@
+#!/bin/bash
+
+NAME=%s
+JAR_INSTALL_DIR=%s
+INIT_SCRIPT_INSTALL_DIR=%s
+
+rm -f $JAR_INSTALL_DIR/"$NAME"-standalone.jar
+rm -f $INIT_SCRIPT_INSTALL_DIR/"$NAME"d

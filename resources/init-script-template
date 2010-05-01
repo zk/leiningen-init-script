@@ -1,0 +1,63 @@
+#!/bin/bash
+
+NAME=%s
+PID_DIR=%s
+PID_FILE=$PID_DIR/$NAME.pid
+INSTALL_DIR=%s
+INSTALL_JAR=$INSTALL_DIR/"$NAME"-standalone.jar
+mkdir -p $PID_DIR
+
+start() {
+	if [ -e $PID_FILE ]
+	then
+		echo "$NAME is already running as process `cat $PID_FILE`."
+		exit 1
+	fi
+	echo "Starting $NAME"
+	java -jar $INSTALL_JAR > /dev/null &
+	PID=$!
+	echo $PID > $PID_FILE
+	exit 0
+}	
+
+stop() {
+	if [ ! -e $PID_FILE ]
+	then
+		echo "$NAME is not running."
+	else
+		echo "Shutting down $NAME"
+		kill `cat $PID_FILE`
+		rm $PID_FILE
+	fi
+}
+
+status() {
+	if [ -e $PID_FILE ]
+	then
+		echo "$NAME is running."
+	else
+		echo "$NAME is not running."
+	fi
+	exit 0
+}
+
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+    status)
+	status
+	;;
+    restart)
+    stop
+	start
+	;;
+    *)
+        echo "Usage: "$NAME"d {start|stop|status|restart}"
+	exit 1
+	;;
+esac
+exit $?
