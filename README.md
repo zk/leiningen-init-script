@@ -123,8 +123,8 @@ which are passed to the the init-script task by adding a :lis-opts entry to the 
 	                 [org.clojure/clojure-contrib "1.1.0"]]
 	  :dev-dependencies [[leiningen-init-script "0.1.0"]]
 	  :lis-opts {:properties {:clj-config.env "dev"
-				  :java.library.path "/some/dir"
-				  :init.script.test.prop "test with spaces"}
+				  			  :java.library.path "/some/dir"
+				  			  :init.script.test.prop "test with spaces"}
 		         :java-opts ["-server"
 							 "-Xms256M"
 				 			 "-Xmx512M"
