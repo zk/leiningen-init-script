@@ -4,12 +4,59 @@
 	[clojure.contrib.duck-streams]
 	))
 
+
+;; Testing options
+(def test-opts {:properties {:clj-config.env "dev"
+			     :java.library.path "/some/dir"}
+		:java-opts ["-server" 
+			    "-Xms1G"
+			    "-Xmx2G"
+			    "-XX:MaxPermSize=128M"]})
+
+
+;; Taken from c.c.string
+(defn as-str
+  "Like clojure.core/str, but if an argument is a keyword or symbol,
+  its name will be used instead of its literal representation.
+
+  Example:
+     (str :foo :bar)     ;;=> \":foo:bar\"
+     (as-str :foo :bar)  ;;=> \"foobar\" 
+
+  Note that this does not apply to keywords or symbols nested within
+  data structures; they will be rendered as with str.
+
+  Example:
+     (str {:foo :bar})     ;;=> \"{:foo :bar}\"
+     (as-str {:foo :bar})  ;;=> \"{:foo :bar}\" "
+  ([] "")
+  ([x] (if (instance? clojure.lang.Named x)
+         (name x)
+         (str x)))
+  ([x & ys]
+     ((fn [#^StringBuilder sb more]
+        (if more
+          (recur (. sb  (append (as-str (first more)))) (next more))
+          (str sb)))
+      (new StringBuilder #^String (as-str x)) ys)))
+
+(defn format-properties [opts]
+  (if (nil? (:properties opts))
+    ""
+    (apply str (interpose " " (map #(as-str "\"-D" % "=" (% (:properties opts)) "\"") (keys (:properties opts)))))))
+
+(defn format-java-opts [opts]
+  (let [java-opts (:java-opts opts)]
+    (apply str (interpose " " java-opts))))
+
+(defn format-java-string [opts]
+  (str (format-properties opts) " " (format-java-opts opts)))
+
 (def gen-init-script)
 (def gen-install-script)
 
 (defn resource-input-stream [res-name]
   (.getResourceAsStream (.getContextClassLoader (Thread/currentThread)) res-name))
-
 
 (def init-script-template (slurp* (resource-input-stream "init-script-template")))
 (def install-template (slurp* (resource-input-stream "install-template")))
@@ -19,8 +66,9 @@
   (let [name (:name project)
 	description (:description project)
 	pid-dir (:pid-dir opts)
-	jar-install-dir (:jar-install-dir opts)]
-    (format init-script-template name pid-dir jar-install-dir)))
+	jar-install-dir (:jar-install-dir opts)
+	java-flags (format-java-string opts)]
+    (format init-script-template name pid-dir jar-install-dir java-flags)))
 
 (defn gen-install-script [uberjar-path init-script-path opts]
   (let [jar-install-dir (:jar-install-dir opts)
@@ -73,5 +121,3 @@
      (gen-install-script artifact-uberjar-path artifact-init-script-path opts))
     (spit clean-script-path (gen-clean-script projects opts))
     (println (str "*** Done generating init scripts, see the " artifact-dir " directory"))))
-
-

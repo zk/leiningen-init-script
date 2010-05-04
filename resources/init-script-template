@@ -14,7 +14,7 @@ start() {
 		exit 1
 	fi
 	echo "Starting $NAME"
-	java -jar $INSTALL_JAR > /dev/null &
+	java %s -jar $INSTALL_JAR > /dev/null &
 	PID=$!
 	echo $PID > $PID_FILE
 	exit 0
