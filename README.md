@@ -35,6 +35,40 @@ Add <code>[leiningen-init-script "0.1.0"]</code> to the :dev-dependencies sectio
 As of now leiningen-init-script is only supported on lein version 1.1.0, but it's on my to do list to
 add support for lein HEAD.
 
+## Configuration
+
+leiningen-init-script takes several options in the form of:
+
+	{:name "override-project-name"
+     :pid-dir "/var/run"
+     :install-dir "/usr/local/my-project-name"
+     :init-script-dir "/etc/init.d"
+	 :properties {:clj-config.env "dev"
+				  :java.library.path "/some/dir"
+				  :init.script.test.prop "prop with spaces"}
+	 :java-opts ["-server"
+				 "-Xms256M"
+				 "-Xmx512M"
+				 "-XX:MaxPermSize=128M"]}
+
+which are passed to the the init-script task by adding a :lis-opts entry to the project map. For example:
+
+	(defproject init-script-test "0.1.0"
+	  :description "Test project for leiningen-init-script"
+	  :dependencies [[org.clojure/clojure "1.1.0"]
+	                 [org.clojure/clojure-contrib "1.1.0"]]
+	  :dev-dependencies [[leiningen-init-script "0.1.0"]]
+	  :lis-opts {:properties {:clj-config.env "dev"
+				  			  :java.library.path "/some/dir"
+				  			  :init.script.test.prop "prop with spaces"}
+		         :java-opts ["-server"
+							 "-Xms256M"
+				 			 "-Xmx512M"
+				 			 "-XX:MaxPermSize=128M"]}
+	  :main main)
+	
+
+
 ## Usage
 
 ### Short Version
@@ -106,32 +140,7 @@ Stop the daemon service and verify the process has stopped
 	44679 ttys003    0:00.11 -bash
 	45248 ttys003    0:00.00 ps -e
 
-## Configuration
 
-leiningen-init-script takes several options in the form of:
-
-	{:name "override-project-name"
-     :pid-dir "/var/run"
-     :install-dir "/usr/local/my-project-name"
-     :init-script-dir "/etc/init.d"}
-
-which are passed to the the init-script task by adding a :lis-opts entry to the project map. For example:
-
-	(defproject init-script-test "0.1.0"
-	  :description "Test project for leiningen-init-script"
-	  :dependencies [[org.clojure/clojure "1.1.0"]
-	                 [org.clojure/clojure-contrib "1.1.0"]]
-	  :dev-dependencies [[leiningen-init-script "0.1.0"]]
-	  :lis-opts {:properties {:clj-config.env "dev"
-				  			  :java.library.path "/some/dir"
-				  			  :init.script.test.prop "test with spaces"}
-		         :java-opts ["-server"
-							 "-Xms256M"
-				 			 "-Xmx512M"
-				 			 "-XX:MaxPermSize=128M"]}
-	  :main main)
-	
-	
 ## Limitations
 
 No Windows support at this time, if you'd like to see support for windows services, please open up an issue.
