@@ -43,6 +43,7 @@ leiningen-init-script takes several options in the form of:
      :pid-dir "/var/run"
      :install-dir "/usr/local/my-project-name"
      :init-script-dir "/etc/init.d"
+	 :redirect-output-to "/log/file or /dev/null"
 	 :properties {:clj-config.env "dev"
 				  :java.library.path "/some/dir"
 				  :init.script.test.prop "prop with spaces"}
@@ -58,7 +59,8 @@ which are passed to the the init-script task by adding a :lis-opts entry to the 
 	  :dependencies [[org.clojure/clojure "1.1.0"]
 	                 [org.clojure/clojure-contrib "1.1.0"]]
 	  :dev-dependencies [[leiningen-init-script "0.1.0"]]
-	  :lis-opts {:properties {:clj-config.env "dev"
+	  :lis-opts {:redirect-output-to "/var/log/init-script-test.log"
+	             :properties {:clj-config.env "dev"
 				  			  :java.library.path "/some/dir"
 				  			  :init.script.test.prop "prop with spaces"}
 		         :java-opts ["-server"

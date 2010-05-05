@@ -67,8 +67,9 @@
 	description (:description project)
 	pid-dir (:pid-dir opts)
 	jar-install-dir (:jar-install-dir opts)
-	java-flags (format-java-string opts)]
-    (format init-script-template name pid-dir jar-install-dir java-flags)))
+	java-flags (format-java-string opts)
+	redirect-output-to (:redirect-output-to opts)]
+    (format init-script-template name pid-dir jar-install-dir java-flags redirect-output-to)))
 
 (defn gen-install-script [uberjar-path init-script-path opts]
   (let [jar-install-dir (:jar-install-dir opts)
@@ -89,7 +90,6 @@
 	name (:name project)]
     (format clean-template name jar-install-dir init-script-install-dir)))
 
-
 (defn create-output-dir [path]
   (.mkdirs (java.io.File. path)))
 
@@ -100,7 +100,8 @@
      :pid-dir "/var/run"
      :jar-install-dir (str "/usr/local/" name)
      :init-script-install-dir "/etc/init.d"
-     :artifact-dir (str root "/init-script")}))
+     :artifact-dir (str root "/init-script")
+     :redirect-output-to "/dev/null"}))
 
 (defn init-script [projects & args]
   (let [opts (merge (defaults projects) (:lis-opts projects))
