@@ -2,6 +2,7 @@
   (:use [clojure.contrib.pprint]
 	[leiningen.uberjar]
 	[clojure.contrib.duck-streams]
+	[clojure.contrib.string :only (as-str)]
 	))
 
 
@@ -13,32 +14,6 @@
 			    "-Xmx2G"
 			    "-XX:MaxPermSize=128M"]})
 
-
-;; Taken from c.c.string
-(defn as-str
-  "Like clojure.core/str, but if an argument is a keyword or symbol,
-  its name will be used instead of its literal representation.
-
-  Example:
-     (str :foo :bar)     ;;=> \":foo:bar\"
-     (as-str :foo :bar)  ;;=> \"foobar\" 
-
-  Note that this does not apply to keywords or symbols nested within
-  data structures; they will be rendered as with str.
-
-  Example:
-     (str {:foo :bar})     ;;=> \"{:foo :bar}\"
-     (as-str {:foo :bar})  ;;=> \"{:foo :bar}\" "
-  ([] "")
-  ([x] (if (instance? clojure.lang.Named x)
-         (name x)
-         (str x)))
-  ([x & ys]
-     ((fn [#^StringBuilder sb more]
-        (if more
-          (recur (. sb  (append (as-str (first more)))) (next more))
-          (str sb)))
-      (new StringBuilder #^String (as-str x)) ys)))
 
 (defn format-properties [opts]
   (if (nil? (:properties opts))
@@ -95,21 +70,25 @@
 
 (defn defaults [project]
   (let [name (:name project)
-	root (:root project)]
+	root (:root project)
+	version (:version project)]
     {:name name
      :pid-dir "/var/run"
      :jar-install-dir (str "/usr/local/" name)
      :init-script-install-dir "/etc/init.d"
      :artifact-dir (str root "/init-script")
-     :redirect-output-to "/dev/null"}))
+     :redirect-output-to "/dev/null"
+     :version version}))
 
 (defn init-script [projects & args]
+  (println projects)
   (let [opts (merge (defaults projects) (:lis-opts projects))
 	root (:root projects)
 	name (:name opts)
+	version (:version opts)
 	artifact-dir (:artifact-dir opts)
-	source-uberjar-path (str root "/" name "-standalone.jar")
-	artifact-uberjar-path (str artifact-dir "/" name "-standalone.jar")
+	source-uberjar-path (str root "/" name "-" version "-standalone.jar")
+	artifact-uberjar-path (str artifact-dir "/" name "-" version "-standalone.jar")
 	artifact-init-script-path (str artifact-dir "/" name "d")
 	install-script-path (str artifact-dir "/" "install-" name)
 	clean-script-path (str artifact-dir "/" "clean-" name)]

@@ -30,10 +30,7 @@ Because it was too damn time-consuming to turn a java program into a *nix daemon
 
 ## Lein
 
-Add <code>[leiningen-init-script "0.1.0"]</code> to the :dev-dependencies section in your project.clj.
-
-As of now leiningen-init-script is only supported on lein version 1.1.0, but it's on my to do list to
-add support for lein HEAD.
+Add <code>[leiningen-init-script "1.2.0-SNAPSHOT"]</code> to the :dev-dependencies section in your project.clj.
 
 ## Configuration
 
@@ -58,7 +55,7 @@ which are passed to the the init-script task by adding a :lis-opts entry to the 
 	  :description "Test project for leiningen-init-script"
 	  :dependencies [[org.clojure/clojure "1.1.0"]
 	                 [org.clojure/clojure-contrib "1.1.0"]]
-	  :dev-dependencies [[leiningen-init-script "0.1.0"]]
+	  :dev-dependencies [[leiningen-init-script "1.2.0-SNAPSHOT"]]
 	  :lis-opts {:redirect-output-to "/var/log/init-script-test.log"
 	             :properties {:clj-config.env "dev"
 				  			  :java.library.path "/some/dir"
