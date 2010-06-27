@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# chkconfig: 345 95 20
+
 NAME=%s
 PID_DIR=%s
 PID_FILE=$PID_DIR/$NAME.pid
