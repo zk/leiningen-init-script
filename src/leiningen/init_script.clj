@@ -39,12 +39,13 @@
 
 (defn gen-init-script [project opts]
   (let [name (:name project)
+	version (:version project)
 	description (:description project)
 	pid-dir (:pid-dir opts)
 	jar-install-dir (:jar-install-dir opts)
 	java-flags (format-java-string opts)
 	redirect-output-to (:redirect-output-to opts)]
-    (format init-script-template name pid-dir jar-install-dir java-flags redirect-output-to)))
+    (format init-script-template name version pid-dir jar-install-dir java-flags redirect-output-to)))
 
 (defn gen-install-script [uberjar-path init-script-path opts]
   (let [jar-install-dir (:jar-install-dir opts)
@@ -81,7 +82,6 @@
      :version version}))
 
 (defn init-script [projects & args]
-  (println projects)
   (let [opts (merge (defaults projects) (:lis-opts projects))
 	root (:root projects)
 	name (:name opts)

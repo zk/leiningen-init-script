@@ -3,10 +3,11 @@
 # chkconfig: 345 95 20
 
 NAME=%s
+VERSION=%s
 PID_DIR=%s
 PID_FILE=$PID_DIR/$NAME.pid
 INSTALL_DIR=%s
-INSTALL_JAR=$INSTALL_DIR/"$NAME"-standalone.jar
+INSTALL_JAR=$INSTALL_DIR/"$NAME"-"$VERSION"-standalone.jar
 mkdir -p $PID_DIR
 
 start() {
